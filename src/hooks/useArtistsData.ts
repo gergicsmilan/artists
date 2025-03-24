@@ -6,7 +6,7 @@ type Props = {
 };
 
 const useArtistsData = ({ getURLSearchParamsString }: Props) => {
-  const [data, setData] = useState<ArtistsResponse>({
+  const [data, setData] = useState<Required<Omit<ArtistsResponse, "message">>>({
     data: [] as Album[],
     pagination: {} as PaginationDetails,
   });
@@ -22,10 +22,11 @@ const useArtistsData = ({ getURLSearchParamsString }: Props) => {
       const responseJSON = await fetch(
         `${import.meta.env.VITE_API_URL}/artists?${queryParamsString}`
       );
-      const response = await responseJSON.json();
+      const response: ArtistsResponse = await responseJSON.json();
 
-      if (response.data && response.pagination) setData(response);
-      if (response.message) setError(response.message);
+      if (response?.data && response?.pagination)
+        setData(response as Required<Omit<ArtistsResponse, "message">>);
+      if (response?.message) setError(response.message as string);
 
       setLoading(false);
     } catch (error) {

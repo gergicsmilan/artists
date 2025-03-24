@@ -12,4 +12,8 @@ export type PaginationDetails = {
   total_items: number;
 };
 
-export type ArtistsResponse = { data: Album[]; pagination: PaginationDetails };
+export type ArtistsResponse = {
+  data?: Album[];
+  pagination?: PaginationDetails;
+  message?: string;
+};
