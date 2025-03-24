@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useState } from "react";
 import { PAGINATION_PARAM, SEARCH_PARAM } from "./useURLSearchParams";
+import { debounce } from "@mui/material";
 
 type Props = {
   setURLSearchParam: (key: string, value: string) => void;
@@ -17,6 +18,9 @@ const useListActions = ({
     searchTerm: getURLSearchParamByKey(SEARCH_PARAM) ?? "",
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedGetArtists = useCallback(debounce(getArtists, 500), []);
+
   const handleSearch = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       const value = e.target.value;
@@ -30,9 +34,9 @@ const useListActions = ({
       });
       setURLSearchParam(SEARCH_PARAM, value);
 
-      getArtists();
+      debouncedGetArtists();
     },
-    [getArtists, setURLSearchParam]
+    [setURLSearchParam, debouncedGetArtists]
   );
 
   const handlePaginate = useCallback(
