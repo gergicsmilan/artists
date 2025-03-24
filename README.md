@@ -1,4 +1,16 @@
-# React + TypeScript + Vite
+# First build
+
+## Install packages
+
+### `npm i`
+
+## Add .env file
+
+### Create `.env` file in project folder and add `VITE_API_URL` with the value of the base API url (example: `https://exam.api.xy.net/api`)
+
+## Start the app
+
+### `npm run dev`
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
