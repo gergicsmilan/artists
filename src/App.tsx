@@ -1,24 +1,19 @@
-import {
-  Container,
-  InputAdornment,
-  Pagination,
-  TextField,
-} from "@mui/material";
-import List from "./components/List/List";
-import { data } from "./mock";
-import useURLSearchParams from "./hooks/useURLSearchParams";
+import { Container } from "@mui/material";
 import useArtistsData from "./hooks/useArtistsData";
+import List from "./components/List/List";
+import SearchField from "./components/SearchField/SearchField";
+import useURLSearchParams from "./hooks/useURLSearchParams";
 import useListActions from "./hooks/useListActions";
-import SearchIcon from "@mui/icons-material/Search";
+import Pagination from "./components/Pagination/Pagination";
 
-const App = () => {
+function App() {
   const {
     setURLSearchParam,
     getURLSearchParamByKey,
     getURLSearchParamsString,
   } = useURLSearchParams();
 
-  const { getArtists } = useArtistsData({
+  const { data, isLoading, error, getArtists } = useArtistsData({
     getURLSearchParamsString,
   });
 
@@ -30,30 +25,21 @@ const App = () => {
 
   return (
     <Container maxWidth="xl">
-      <TextField
-        sx={{ marginRight: "auto" }}
-        label="Search for artists"
-        size="small"
-        value={actionState.searchTerm}
-        onChange={handleSearch}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          },
-        }}
+      <SearchField
+        searchTerm={actionState.searchTerm}
+        handleSearch={handleSearch}
+        isLoading={isLoading}
       />
-      <List artists={data.data} />
+      <List artists={data.data} isLoading={isLoading} error={error} />
       <Pagination
-        count={data.pagination.total_pages}
-        page={actionState.page}
-        onChange={(_e, v) => handlePaginate(v)}
+        totalPages={data.pagination.total_pages}
+        currentPage={actionState.page}
+        handlePaginate={handlePaginate}
+        isLoading={isLoading}
+        error={error}
       />
     </Container>
   );
-};
+}
 
 export default App;

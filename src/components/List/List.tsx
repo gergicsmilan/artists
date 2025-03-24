@@ -1,14 +1,17 @@
 import { Card, CardContent, Chip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import ListSkeleton from "./ListSkeleton";
 import { useMemo } from "react";
 import { Album } from "../../types/api";
 
-type Props = { artists: Album[] };
+type Props = { artists: Album[]; isLoading: boolean; error: null | string };
 
-const List = ({ artists }: Props) => {
+const ArtistList = ({ artists, isLoading, error }: Props) => {
   const noData = useMemo(() => artists.length === 0, [artists.length]);
 
-  if (noData) return <Typography>No data found!</Typography>;
+  if (isLoading) return <ListSkeleton />;
+  if (!isLoading && error) return <Typography>{error}</Typography>;
+  if (!isLoading && noData) return <Typography>No data found!</Typography>;
 
   return (
     <Grid container spacing={2}>
@@ -33,4 +36,4 @@ const List = ({ artists }: Props) => {
   );
 };
 
-export default List;
+export default ArtistList;

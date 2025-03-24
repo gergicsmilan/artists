@@ -5,7 +5,7 @@ import { debounce } from "@mui/material";
 type Props = {
   setURLSearchParam: (key: string, value: string) => void;
   getURLSearchParamByKey: (key: string) => string | null;
-  getArtists: () => void;
+  getArtists: () => Promise<void>;
 };
 
 const useListActions = ({
