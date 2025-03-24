@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, SxProps, Theme } from "@mui/material";
 import useArtistsData from "./hooks/useArtistsData";
 import List from "./components/List/List";
 import SearchField from "./components/SearchField/SearchField";
@@ -23,8 +23,15 @@ function App() {
     getArtists,
   });
 
+  const sx: SxProps<Theme> = {
+    padding: "0.6rem 1rem",
+    display: "flex",
+    flexFlow: "column",
+    gap: "1rem",
+  };
+
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={sx}>
       <SearchField
         searchTerm={actionState.searchTerm}
         handleSearch={handleSearch}
